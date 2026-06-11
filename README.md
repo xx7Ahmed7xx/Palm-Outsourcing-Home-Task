@@ -23,7 +23,7 @@ dotnet test
 dotnet run --project src/OrderHub.Web
 ```
 
-Open `/DemoOrder` to run the processor against SQLite, or `/ConfirmOrder` for Q3.
+Open `/DemoOrder` to run the processor against SQLite, or `/ConfirmOrder` for Q3, check `docs/Q3-ISSUES.md` for more.
 
 ## Submission checklist
 
