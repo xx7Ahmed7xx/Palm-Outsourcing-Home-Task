@@ -1,0 +1,13 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <ul>
+        <li><a asp-page="/DemoOrder">Q1 — Process order (SQLite-backed)</a></li>
+        <li><a asp-page="/ConfirmOrder">Q3 — Confirm order page</a></li>
+    </ul>
+</div>

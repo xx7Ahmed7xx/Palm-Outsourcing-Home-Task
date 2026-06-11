@@ -1,0 +1,66 @@
+@page
+@model OrderHub.Web.Pages.ConfirmOrderModel
+@{
+    ViewData["Title"] = "Confirm order";
+}
+
+@section Scripts {
+    <script src="~/js/confirm-order.js" asp-append-version="true"></script>
+}
+
+<article class="confirm-order" data-confirm-order>
+    <header>
+        <h1>Order for @Model.SchoolName</h1>
+    </header>
+
+    @if (!string.IsNullOrEmpty(Model.ConfirmationMessage))
+    {
+        <div class="alert alert-success" role="status">@Model.ConfirmationMessage</div>
+    }
+
+    <form method="post" asp-page-handler="Confirm" data-confirm-form>
+        <table class="table" aria-label="Order lines">
+            <thead>
+                <tr>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Embroidery</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col" class="text-end">Line total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Lines.Count; i++)
+                {
+                    var line = Model.Lines[i];
+                    <tr data-order-line data-unit-price="@line.UnitPrice">
+                        <td>
+                            @line.Sku
+                            <input type="hidden" asp-for="Lines[i].Id" />
+                            <input type="hidden" asp-for="Lines[i].Sku" />
+                            <input type="hidden" asp-for="Lines[i].Embroidery" />
+                            <input type="hidden" asp-for="Lines[i].UnitPrice" />
+                        </td>
+                        <td>@(line.Embroidery ?? "—")</td>
+                        <td>
+                            <label class="visually-hidden" for="qty-@line.Id">Quantity for @line.Sku</label>
+                            <input asp-for="Lines[i].Quantity"
+                                   id="qty-@line.Id"
+                                   class="form-control qty-input"
+                                   min="1"
+                                   data-qty-input />
+                        </td>
+                        <td class="text-end">
+                            <span data-line-total>£@line.LineTotal.ToString("0.00")</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <p class="subtotal">
+            Subtotal: <strong data-subtotal>£@Model.Subtotal.ToString("0.00")</strong>
+        </p>
+
+        <button type="submit" class="btn btn-primary" data-confirm-submit>Confirm</button>
+    </form>
+</article>

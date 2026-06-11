@@ -1,0 +1,24 @@
+@page
+@model OrderHub.Web.Pages.DemoOrderModel
+@{
+    ViewData["Title"] = "Process order demo";
+}
+
+<h1>Q1 — OrderProcessor demo</h1>
+<p class="text-muted">Runs against the local SQLite database (school 1, GOLD tier).</p>
+
+@if (!string.IsNullOrEmpty(Model.ResultMessage))
+{
+    <div class="alert @(Model.ResultMessage.StartsWith("OK") ? "alert-success" : "alert-danger")" role="status">
+        @Model.ResultMessage
+    </div>
+}
+
+<form method="post" asp-page-handler="Process">
+    <div class="mb-3">
+        <label asp-for="ParentEmail" class="form-label">Parent email</label>
+        <input asp-for="ParentEmail" class="form-control" />
+        <div class="form-text">Use an address containing <code>fail-payment</code> to simulate a payment failure.</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Process sample order</button>
+</form>
